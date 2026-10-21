@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Сток и оригинальная одежда из Европы. Доставка из Санкт-Петербурга по всей России.">
+<title>МАДАМ ПОМПАДУР</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Golos+Text:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#FBFBF9; --surface:#FFFFFF; --ink:#16181C; --muted:#6E7177;
+  --line:#E6E5E0; --accent:#124559; --on-accent:#FFFFFF; --chip:#F1F0EB;
+  --shadow:0 1px 2px rgba(20,22,26,.06),0 8px 24px rgba(20,22,26,.05);
+  --display:"Oswald","Helvetica Neue",Arial,sans-serif;
+  --body:"Golos Text","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#121316; --surface:#1A1C20; --ink:#E9EAEC; --muted:#9A9DA4;
+    --line:#2B2E34; --accent:#6FB3D2; --on-accent:#0E1A20; --chip:#24272D;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#121316; --surface:#1A1C20; --ink:#E9EAEC; --muted:#9A9DA4;
+  --line:#2B2E34; --accent:#6FB3D2; --on-accent:#0E1A20; --chip:#24272D;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);
+     font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);
+     border-bottom:1px solid var(--line)}
+.bar__in{max-width:1180px;margin:0 auto;padding-inline:18px;padding-block:12px;
+         display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{font-family:var(--display);font-weight:600;font-size:21px;letter-spacing:.06em;
+      text-transform:uppercase;white-space:nowrap}
+.logo span{color:var(--accent)}
+.city{font-size:12px;color:var(--muted);white-space:nowrap}
+.search{flex:1;min-width:190px;padding:9px 13px;border:1px solid var(--line);border-radius:3px;
+        background:var(--ground);color:var(--ink);font-size:14px}
+.search:focus{outline:2px solid var(--accent);outline-offset:-1px}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:18px;padding-block:22px 64px}
+.tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.chip{padding:6px 13px;border:1px solid var(--line);background:var(--chip);border-radius:999px;
+      font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.chip b{font-weight:500;opacity:.65;margin-left:5px;font-size:11.5px}
+.sort{margin-left:auto;padding:7px 11px;border:1px solid var(--line);border-radius:3px;
+      background:var(--surface);color:var(--ink);font-size:13px}
+.count{font-size:13px;color:var(--muted);margin-bottom:14px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(204px,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden;
+      cursor:pointer;display:flex;flex-direction:column;text-align:left;padding:0;border-width:1px;
+      transition:box-shadow .16s,transform .16s}
+.card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card__ph{aspect-ratio:1;background:var(--chip);overflow:hidden}
+.card__ph img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.card:hover .card__ph img{transform:scale(1.04)}
+.card__b{padding:11px 13px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.card__n{font-size:13.5px;line-height:1.38;flex:1}
+.card__r{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.price{font-family:var(--display);font-weight:500;font-size:18px;letter-spacing:.01em;
+       font-variant-numeric:tabular-nums;white-space:nowrap}
+.size{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:1px 6px;border-radius:2px;
+      white-space:nowrap}
+
+.empty{padding:50px 0;text-align:center;color:var(--muted);grid-column:1/-1}
+
+.hero{background:var(--surface);border-bottom:1px solid var(--line)}
+.hero__in{max-width:1180px;margin:0 auto;padding-inline:18px;padding-block:18px}
+.hero p{margin:0;color:var(--muted);font-size:13.5px;max-width:58ch}
+.hero b{color:var(--ink);font-weight:500}
+
+/* карточка товара */
+.detail{max-width:1180px;margin:0 auto;padding-inline:18px;padding-block:22px 64px}
+.back{display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:var(--muted);
+      font-size:14px;cursor:pointer;padding:6px 0;margin-bottom:16px}
+.back:hover{color:var(--ink)}
+.back:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.dcols{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:34px;align-items:start}
+.gal{display:flex;flex-direction:column;gap:11px}
+.gal__main{background:var(--chip);border:1px solid var(--line);border-radius:4px;overflow:hidden;
+           aspect-ratio:1;max-width:var(--galmax,none)}
+.gal__main img{width:100%;height:100%;object-fit:cover}
+.gal__row{display:flex;gap:9px}
+.gal__t{width:74px;height:74px;border:1px solid var(--line);border-radius:3px;overflow:hidden;
+        padding:0;background:none;cursor:pointer}
+.gal__t[aria-pressed="true"]{border-color:var(--accent);border-width:2px}
+.gal__t img{width:100%;height:100%;object-fit:cover}
+.dh{font-family:var(--display);font-weight:500;font-size:clamp(21px,3.2vw,27px);line-height:1.2;
+    margin:0 0 12px;text-wrap:balance}
+.dprice{font-family:var(--display);font-weight:600;font-size:31px;margin:0 0 16px;
+        font-variant-numeric:tabular-nums}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.cta{display:inline-block;background:var(--accent);color:var(--on-accent);text-decoration:none;
+     padding:13px 26px;border-radius:3px;font-size:15px;font-weight:500;margin-bottom:8px}
+.cta:hover{opacity:.9}
+.hint{font-size:12px;color:var(--muted);margin:0 0 22px}
+.dsec{border-top:1px solid var(--line);padding-top:16px}
+.dsec h3{font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.08em;
+         text-transform:uppercase;color:var(--muted);margin:0 0 9px}
+.dtext{white-space:pre-wrap;font-size:14.5px;line-height:1.6;margin:0}
+.orig{font-size:12.5px;color:var(--muted);margin-top:16px}
+.orig a{color:var(--muted)}
+
+.foot{max-width:1180px;margin:0 auto;padding:22px 18px 44px;border-top:1px solid var(--line);
+      color:var(--muted);font-size:12.5px}
+.foot b{color:var(--ink);font-weight:500}
+
+@media (max-width:860px){
+  .dcols{grid-template-columns:1fr;gap:22px}
+}
+@media (max-width:620px){
+  .bar__in{padding-inline:13px;padding-block:10px;gap:9px}
+  .logo{font-size:18px}
+  .city{display:none}
+  .search{min-width:100%;order:3;font-size:16px}
+  .hero__in{padding-inline:13px;padding-block:13px}
+  .hero p{font-size:12.5px}
+  .wrap,.detail{padding-inline:13px;padding-block:16px 48px}
+  .tools{gap:7px;margin-bottom:14px}
+  .chip{padding:5px 11px;font-size:12.5px}
+  .sort{margin-left:0;width:100%;font-size:13px}
+  .count{margin-bottom:11px}
+
+  .grid{grid-template-columns:repeat(2,1fr);gap:11px}
+  .card__b{padding:9px 10px 11px;gap:5px}
+  .card__n{font-size:12.5px;line-height:1.32}
+  .card__r{flex-direction:column;align-items:flex-start;gap:4px}
+  .price{font-size:16px}
+  .size{font-size:10px;padding:1px 5px}
+
+  .back{position:sticky;top:calc(env(safe-area-inset-top,0px) + 54px);z-index:15;
+        background:var(--ground);width:100%;padding:10px 0;margin-bottom:10px}
+  .gal__t{width:60px;height:60px}
+  .dprice{font-size:26px}
+  .cta{display:block;text-align:center;padding:14px 20px}
+  .foot{padding-inline:13px}
+}
+@media (max-width:360px){
+  .grid{gap:9px}
+  .card__n{font-size:11.5px}
+}
+
+:root{--galmax:320px}</style>
+
+</head>
+<body>
+<header class="bar"><div class="bar__in">
+  <div class="logo">МАДАМ ПОМПАДУР</div>
+  <div class="city">Москва · отправка по России</div>
+  <input id="q" class="search" type="search" placeholder="Поиск по каталогу: бренд, модель, размер" aria-label="Поиск">
+</div></header>
+
+<div class="hero"><div class="hero__in">
+  <p><b>Женская одежда больших размеров из Турции.</b> Размеры 50–88: куртки, дублёнки, пальто, жилеты, брюки. Отправка из Москвы по всей России.</p>
+</div></div>
+
+<main id="cat" class="wrap">
+  <div class="tools">
+    <button class="chip" type="button" data-b="куртка" aria-pressed="false">куртка<b>18</b></button><button class="chip" type="button" data-b="дублёнка" aria-pressed="false">дублёнка<b>2</b></button><button class="chip" type="button" data-b="пальто" aria-pressed="false">пальто<b>6</b></button><button class="chip" type="button" data-b="плащ" aria-pressed="false">плащ<b>1</b></button><button class="chip" type="button" data-b="жилет" aria-pressed="false">жилет<b>3</b></button><button class="chip" type="button" data-b="костюм" aria-pressed="false">костюм<b>7</b></button><button class="chip" type="button" data-b="платье" aria-pressed="false">платье<b>2</b></button><button class="chip" type="button" data-b="юбка" aria-pressed="false">юбка<b>1</b></button><button class="chip" type="button" data-b="брюки" aria-pressed="false">брюки<b>2</b></button><button class="chip" type="button" data-b="другое" aria-pressed="false">другое<b>1</b></button>
+    <select id="sort" class="sort" aria-label="Сортировка">
+      <option value="name">по названию</option>
+      <option value="asc">сначала дешёвые</option>
+      <option value="desc">сначала дорогие</option>
+    </select>
+  </div>
+  <p id="cnt" class="count"></p>
+  <div id="grid" class="grid"></div>
+</main>
+
+<div id="det" class="detail" hidden>
+  <button id="back" class="back" type="button">← Назад в каталог</button>
+  <div class="dcols">
+    <div class="gal">
+      <div class="gal__main"><img id="dmain" src="" alt=""></div>
+      <div id="drow" class="gal__row"></div>
+    </div>
+    <div>
+      <h1 id="dh" class="dh"></h1>
+      <p id="dprice" class="dprice"></p>
+      <div id="dmeta" class="meta"></div>
+      <a class="cta" href="#" id="dcta">Написать продавцу</a>
+      <p class="hint">В рабочей версии кнопка ведёт в WhatsApp или Telegram магазина.</p>
+      <div class="dsec">
+        <h3>Описание</h3>
+        <p id="dtext" class="dtext"></p>
+      </div>
+      <p class="orig">Это объявление на Авито: <a id="dorig" href="#" target="_blank" rel="noopener">открыть оригинал</a></p>
+    </div>
+  </div>
+</div>
+
+<footer class="foot">
+  <b>Демонстрационная витрина</b>
+</footer>
+
+<script>
+const G = [{"id": 7518106304, "n": "Джинсовая куртка большие размеры (52-78) Турция", "p": 13900, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/dzhinsovaya_kurtka_bolshie_razmery_52-78_turtsiya_7518106304", "ph": ["img/7518106304_1.jpg", "img/7518106304_2.jpg"]}, {"id": 1791107392, "n": "Куртка лёгкая большая новая Турция", "p": 4000, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/kurtka_legkaya_bolshaya_novaya_turtsiya_1791107392", "ph": ["img/1791107392_1.jpg", "img/1791107392_2.jpg"]}, {"id": 7678419745, "n": "Нарядное платье большое (50-88р.) Турция", "p": 8800, "d": "", "s": "", "b": "платье", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/naryadnoe_plate_bolshoe_50-88r._turtsiya_7678419745", "ph": ["img/7678419745_1.jpg", "img/7678419745_2.jpg"]}, {"id": 2687206451, "n": "Пальто зима больших размеров (50-72) Турция", "p": 15800, "d": "", "s": "", "b": "пальто", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/palto_zima_bolshih_razmerov_50-72_turtsiya_2687206451", "ph": ["img/2687206451_1.jpg", "img/2687206451_2.jpg"]}, {"id": 8253995880, "n": "Стильная дубленка эко большая (50-78р.) Турция", "p": 16500, "d": "", "s": "", "b": "дублёнка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_dublenka_eko_bolshaya_50-78r._turtsiya_8253995880", "ph": ["img/8253995880_1.jpg", "img/8253995880_2.jpg"]}, {"id": 8369051120, "n": "Стильная дублёнка большие размеры (50-78) Турция", "p": 17800, "d": "", "s": "", "b": "дублёнка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_dublenka_bolshie_razmery_50-78_turtsiya_8369051120", "ph": ["img/8369051120_1.jpg", "img/8369051120_2.jpg"]}, {"id": 8285895232, "n": "Стильная зимняя куртка большая (50-78р.) Турция", "p": 16800, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_zimnyaya_kurtka_bolshaya_50-78r._turtsiya_8285895232", "ph": ["img/8285895232_1.jpg", "img/8285895232_2.jpg"]}, {"id": 8453301961, "n": "Стильная куртка 2 цвета большая (50-78 р.) Турция", "p": 15500, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_2_tsveta_bolshaya_50-78_r._turtsiya_8453301961", "ph": ["img/8453301961_1.jpg", "img/8453301961_2.jpg"]}, {"id": 8350115615, "n": "Стильная куртка 2 цвета большая (50-78р.) Турция", "p": 16800, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_2_tsveta_bolshaya_50-78r._turtsiya_8350115615", "ph": ["img/8350115615_1.jpg", "img/8350115615_2.jpg"]}, {"id": 8189989560, "n": "Стильная куртка 2 цвета большая (50-88р.) Турция", "p": 12900, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_2_tsveta_bolshaya_50-88r._turtsiya_8189989560", "ph": ["img/8189989560_1.jpg"]}, {"id": 8305620683, "n": "Стильная куртка 3 цвета большая (50-78р.) Турция", "p": 15900, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_3_tsveta_bolshaya_50-78r._turtsiya_8305620683", "ph": ["img/8305620683_1.jpg"]}, {"id": 8510856034, "n": "Стильная куртка 3 цвета большая (50-78р.) Турция", "p": 15900, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_3_tsveta_bolshaya_50-78r._turtsiya_8510856034", "ph": ["img/8510856034_1.jpg", "img/8510856034_2.jpg"]}, {"id": 8190075916, "n": "Стильная куртка 3 цвета большая (54-88) Турция", "p": 12900, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_3_tsveta_bolshaya_54-88_turtsiya_8190075916", "ph": ["img/8190075916_1.jpg", "img/8190075916_2.jpg"]}, {"id": 3615414788, "n": "Стильная куртка 5 цветов большая (52-72р.) Турция", "p": 6800, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_5_tsvetov_bolshaya_52-72r._turtsiya_3615414788", "ph": ["img/3615414788_1.jpg", "img/3615414788_2.jpg"]}, {"id": 8190220480, "n": "Стильная куртка большие размеры (50-78) Турция", "p": 16500, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_bolshie_razmery_50-78_turtsiya_8190220480", "ph": ["img/8190220480_1.jpg", "img/8190220480_2.jpg"]}, {"id": 8373719431, "n": "Стильная куртка большие размеры (50-78) Турция", "p": 16800, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_bolshie_razmery_50-78_turtsiya_8373719431", "ph": ["img/8373719431_1.jpg", "img/8373719431_2.jpg"]}, {"id": 8378192396, "n": "Стильная куртка зима 2 цв. большая (50-78р) Турция", "p": 16500, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_zima_2_tsv._bolshaya_50-78r_turtsiya_8378192396", "ph": ["img/8378192396_1.jpg", "img/8378192396_2.jpg"]}, {"id": 8493733767, "n": "Стильная куртка зима большая (50-78 р.) Турция", "p": 16800, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_zima_bolshaya_50-78_r._turtsiya_8493733767", "ph": ["img/8493733767_1.jpg", "img/8493733767_2.jpg"]}, {"id": 8286464645, "n": "Стильная куртка зима большая (50-78) Турция", "p": 16500, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_zima_bolshaya_50-78_turtsiya_8286464645", "ph": ["img/8286464645_1.jpg", "img/8286464645_2.jpg"]}, {"id": 8286774734, "n": "Стильная куртка зима большая (50-78р.) Турция", "p": 16800, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnaya_kurtka_zima_bolshaya_50-78r._turtsiya_8286774734", "ph": ["img/8286774734_1.jpg"]}, {"id": 4191377576, "n": "Стильное пальто 3 цвета большое (52-78р.) Турция", "p": 15800, "d": "", "s": "", "b": "пальто", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnoe_palto_3_tsveta_bolshoe_52-78r._turtsiya_4191377576", "ph": ["img/4191377576_1.jpg", "img/4191377576_2.jpg"]}, {"id": 8222349760, "n": "Стильное пальто большие размеры (50-78) Турция", "p": 15900, "d": "", "s": "", "b": "пальто", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnoe_palto_bolshie_razmery_50-78_turtsiya_8222349760", "ph": ["img/8222349760_1.jpg", "img/8222349760_2.jpg"]}, {"id": 2750866203, "n": "Стильное пальто больших размеров (до 66р.) Турция", "p": 9800, "d": "", "s": "", "b": "пальто", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnoe_palto_bolshih_razmerov_do_66r._turtsiya_2750866203", "ph": ["img/2750866203_1.jpg", "img/2750866203_2.jpg"]}, {"id": 2750949947, "n": "Стильное пальто больших размеров Турция", "p": 9800, "d": "", "s": "", "b": "пальто", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnoe_palto_bolshih_razmerov_turtsiya_2750949947", "ph": ["img/2750949947_1.jpg", "img/2750949947_2.jpg"]}, {"id": 7582908661, "n": "Стильное пальто-кардиган большое (50-72р.) Турция", "p": 13500, "d": "", "s": "", "b": "пальто", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnoe_palto-kardigan_bolshoe_50-72r._turtsiya_7582908661", "ph": ["img/7582908661_1.jpg", "img/7582908661_2.jpg"]}, {"id": 8318343579, "n": "Стильные брюки большие размеры (50-78) Турция", "p": 7500, "d": "", "s": "", "b": "брюки", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnye_bryuki_bolshie_razmery_50-78_turtsiya_8318343579", "ph": ["img/8318343579_1.jpg"]}, {"id": 4479056833, "n": "Стильные брюки-джинсы большие (50-72р.) Турция", "p": 7500, "d": "", "s": "", "b": "брюки", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnye_bryuki-dzhinsy_bolshie_50-72r._turtsiya_4479056833", "ph": ["img/4479056833_1.jpg", "img/4479056833_2.jpg"]}, {"id": 8485023105, "n": "Стильный жилет 4 цвета большой (50-78 р.) Турция", "p": 13200, "d": "", "s": "", "b": "жилет", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnyy_zhilet_4_tsveta_bolshoy_50-78_r._turtsiya_8485023105", "ph": ["img/8485023105_1.jpg"]}, {"id": 8286114405, "n": "Стильный жилет большие размеры (50-78) Турция", "p": 14500, "d": "", "s": "", "b": "жилет", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnyy_zhilet_bolshie_razmery_50-78_turtsiya_8286114405", "ph": ["img/8286114405_1.jpg"]}, {"id": 8190041610, "n": "Стильный жилет большие размеры (50-78) Турция", "p": 11500, "d": "", "s": "", "b": "жилет", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnyy_zhilet_bolshie_razmery_50-78_turtsiya_8190041610", "ph": ["img/8190041610_1.jpg"]}, {"id": 7998699574, "n": "Стильный костюм 3 цвета большой (50-78р) Турция", "p": 11800, "d": "", "s": "", "b": "костюм", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnyy_kostyum_3_tsveta_bolshoy_50-78r_turtsiya_7998699574", "ph": ["img/7998699574_1.jpg", "img/7998699574_2.jpg"]}, {"id": 8334676208, "n": "Стильный костюм большие размеры (50-78 р.) Турция", "p": 12500, "d": "", "s": "", "b": "костюм", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnyy_kostyum_bolshie_razmery_50-78_r._turtsiya_8334676208", "ph": ["img/8334676208_1.jpg"]}, {"id": 8453561517, "n": "Стильный костюм большие размеры (50-78 р.) Турция", "p": 13900, "d": "", "s": "", "b": "костюм", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnyy_kostyum_bolshie_razmery_50-78_r._turtsiya_8453561517", "ph": ["img/8453561517_1.jpg"]}, {"id": 7902007886, "n": "Стильный костюм большие размеры (52-72) Турция", "p": 13900, "d": "", "s": "", "b": "костюм", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/stilnyy_kostyum_bolshie_razmery_52-72_turtsiya_7902007886", "ph": ["img/7902007886_1.jpg", "img/7902007886_2.jpg"]}, {"id": 1791711478, "n": "Туфли натуральная кожа новые", "p": 3040, "d": "", "s": "", "b": "другое", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/tufli_naturalnaya_kozha_novye_1791711478", "ph": ["img/1791711478_1.jpg", "img/1791711478_2.jpg"]}, {"id": 7998276347, "n": "Шикарная джинсовая куртка большая (52-72р.) Турция", "p": 11900, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/shikarnaya_dzhinsovaya_kurtka_bolshaya_52-72r._turtsiya_7998276347", "ph": ["img/7998276347_1.jpg", "img/7998276347_2.jpg"]}, {"id": 4191010105, "n": "Шикарная куртка 2 цвета большая (52-78р.) Турция", "p": 15300, "d": "", "s": "", "b": "куртка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/shikarnaya_kurtka_2_tsveta_bolshaya_52-78r._turtsiya_4191010105", "ph": ["img/4191010105_1.jpg"]}, {"id": 4351264527, "n": "Шикарное платье стразы 2 цв. большое(50-68) Турция", "p": 11800, "d": "", "s": "", "b": "платье", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/shikarnoe_plate_strazy_2_tsv._bolshoe50-68_turtsiya_4351264527", "ph": ["img/4351264527_1.jpg"]}, {"id": 4223471313, "n": "Шикарный костюм 2 цвета большой (50-72р.) Турция", "p": 12900, "d": "", "s": "", "b": "костюм", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/shikarnyy_kostyum_2_tsveta_bolshoy_50-72r._turtsiya_4223471313", "ph": ["img/4223471313_1.jpg", "img/4223471313_2.jpg"]}, {"id": 7998760252, "n": "Шикарный костюм 4 цвета большой (50-78р.) Турция", "p": 9900, "d": "", "s": "", "b": "костюм", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/shikarnyy_kostyum_4_tsveta_bolshoy_50-78r._turtsiya_7998760252", "ph": ["img/7998760252_1.jpg", "img/7998760252_2.jpg"]}, {"id": 4222590227, "n": "Шикарный костюм спортшик 2 цвета большой (50-78р.)", "p": 12900, "d": "", "s": "", "b": "костюм", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/shikarnyy_kostyum_sportshik_2_tsveta_bolshoy_50-78r._4222590227", "ph": ["img/4222590227_1.jpg", "img/4222590227_2.jpg"]}, {"id": 4478919790, "n": "Шикарный плащ-кардиган большой (50-68р.) Турция", "p": 13800, "d": "", "s": "", "b": "плащ", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/shikarnyy_plasch-kardigan_bolshoy_50-68r._turtsiya_4478919790", "ph": ["img/4478919790_1.jpg", "img/4478919790_2.jpg"]}, {"id": 7678697992, "n": "Юбка-брюки большие размеры (50-78) Турция", "p": 7900, "d": "", "s": "", "b": "юбка", "u": "https://www.avito.ru/moskovskaya_oblast_moskovskiy/odezhda_obuv_aksessuary/yubka-bryuki_bolshie_razmery_50-78_turtsiya_7678697992", "ph": ["img/7678697992_1.jpg", "img/7678697992_2.jpg"]}];
+const SELLER = "https://www.avito.ru/brands/i128261377";
+let f = {q:"", b:"", sort:"name"};
+let catScroll = 0;
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const $ = s => document.querySelector(s);
+const grid = $("#grid"), cat = $("#cat"), det = $("#det"), cnt = $("#cnt");
+
+function money(n){ return n == null ? "цена по запросу"
+  : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "\u00a0") + "\u00a0\u20bd"; }
+
+function list(){
+  let r = G.filter(g => {
+    if (f.b && g.b !== f.b) return false;
+    if (f.q && !(g.n + " " + g.d).toLowerCase().includes(f.q)) return false;
+    return true;
+  });
+  if (f.sort === "asc") r.sort((a,b) => (a.p??0) - (b.p??0));
+  else if (f.sort === "desc") r.sort((a,b) => (b.p??0) - (a.p??0));
+  else r.sort((a,b) => a.n.localeCompare(b.n, "ru"));
+  return r;
+}
+
+function draw(){
+  const r = list();
+  cnt.textContent = r.length ? (r.length + " " + plural(r.length)) : "";
+  grid.innerHTML = r.length ? "" : '<p class="empty">Ничего не нашлось. Попробуйте другой запрос.</p>';
+  r.forEach(g => {
+    const b = document.createElement("button");
+    b.className = "card"; b.type = "button";
+    b.innerHTML = '<div class="card__ph"><img src="' + g.ph[0] + '" alt="" loading="lazy"></div>'
+      + '<div class="card__b"><div class="card__n"></div><div class="card__r">'
+      + '<span class="price"></span>' + (g.s ? '<span class="size"></span>' : '') + '</div></div>';
+    b.querySelector(".card__n").textContent = g.n;
+    b.querySelector(".price").textContent = money(g.p);
+    if (g.s) b.querySelector(".size").textContent = g.s;
+    b.addEventListener("click", () => openItem(g));
+    grid.appendChild(b);
+  });
+}
+
+function plural(n){
+  const a = n % 10, b = n % 100;
+  if (a === 1 && b !== 11) return "товар";
+  if (a >= 2 && a <= 4 && (b < 10 || b >= 20)) return "товара";
+  return "товаров";
+}
+
+function openItem(g, push){
+  if (push === undefined) push = true;
+  $("#dh").textContent = g.n;
+  $("#dprice").textContent = money(g.p);
+  $("#dtext").textContent = g.d || "Описание не указано.";
+  $("#dorig").href = g.u;
+  $("#dcta").href = SELLER;
+  const meta = $("#dmeta"); meta.innerHTML = "";
+  if (g.s){ const e = document.createElement("span"); e.className = "size";
+            e.textContent = "размер " + g.s; meta.appendChild(e); }
+  const e2 = document.createElement("span"); e2.className = "size";
+  e2.textContent = "артикул " + g.id; meta.appendChild(e2);
+
+  const main = $("#dmain"), row = $("#drow");
+  main.src = g.ph[0]; row.innerHTML = "";
+  if (g.ph.length > 1) g.ph.forEach((p, i) => {
+    const t = document.createElement("button");
+    t.className = "gal__t"; t.type = "button";
+    t.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+    t.innerHTML = '<img src="' + p + '" alt="">';
+    t.addEventListener("click", () => {
+      main.src = p;
+      row.querySelectorAll(".gal__t").forEach(x => x.setAttribute("aria-pressed","false"));
+      t.setAttribute("aria-pressed","true");
+    });
+    row.appendChild(t);
+  });
+  if (!cat.hidden) catScroll = window.scrollY;
+  cat.hidden = true; det.hidden = false;
+  window.scrollTo(0, 0);
+  if (push) history.pushState({item: g.id}, "", "#t" + g.id);
+}
+
+function showCatalog(){
+  det.hidden = true; cat.hidden = false;
+  // браузер обнуляет прокрутку уже после наших вызовов, поэтому повторяем
+  const y = catScroll, restore = () => window.scrollTo(0, y);
+  restore();
+  requestAnimationFrame(restore);
+  setTimeout(restore, 50);
+  setTimeout(restore, 150);
+}
+
+$("#back").addEventListener("click", () => history.back());
+
+window.addEventListener("popstate", e => {
+  const id = e.state && e.state.item;
+  if (id){ const g = G.find(x => x.id === id); if (g){ openItem(g, false); return; } }
+  showCatalog();
+});
+
+// прямая ссылка на товар: #t<артикул>
+(function(){
+  const m = location.hash.match(/^#t([0-9]+)/);
+  if (!m) return;
+  const g = G.find(x => String(x.id) === m[1]);
+  if (!g) return;
+  history.replaceState({}, "", location.pathname + location.search);
+  openItem(g, true);
+})();
+$("#q").addEventListener("input", e => { f.q = e.target.value.trim().toLowerCase(); draw(); });
+$("#sort").addEventListener("change", e => { f.sort = e.target.value; draw(); });
+document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+  const v = c.dataset.b;
+  f.b = (f.b === v) ? "" : v;
+  document.querySelectorAll(".chip").forEach(x =>
+    x.setAttribute("aria-pressed", x.dataset.b === f.b ? "true" : "false"));
+  draw();
+}));
+draw();
+</script>
+
+</body>
+</html>
