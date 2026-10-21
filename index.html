@@ -64,8 +64,8 @@ button{font:inherit;color:inherit}
       transition:box-shadow .16s,transform .16s}
 .card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
 .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.card__ph{aspect-ratio:1;background:var(--photo-bg);overflow:hidden}
-.card__ph img{width:100%;height:100%;object-fit:contain;transition:transform .35s ease}
+.card__ph{aspect-ratio:var(--card-ratio,1);background:var(--photo-bg);overflow:hidden}
+.card__ph img{width:100%;height:100%;object-fit:var(--card-fit,contain);transition:transform .35s ease}
 .card:hover .card__ph img{transform:scale(1.04)}
 .card__b{padding:11px 13px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
 .card__n{font-size:13.5px;line-height:1.38;flex:1}
@@ -91,7 +91,7 @@ button{font:inherit;color:inherit}
 .dcols{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:34px;align-items:start}
 .gal{display:flex;flex-direction:column;gap:11px}
 .gal__main{background:var(--photo-bg);border:1px solid var(--line);border-radius:4px;overflow:hidden;
-           aspect-ratio:1;max-width:var(--galmax,none)}
+           aspect-ratio:var(--gal-ratio,1);max-width:var(--galmax,none)}
 .gal__main img{width:100%;height:100%;object-fit:contain}
 .gal__row{display:flex;gap:9px}
 .gal__t{width:74px;height:74px;border:1px solid var(--line);border-radius:3px;overflow:hidden;
@@ -153,7 +153,8 @@ button{font:inherit;color:inherit}
   .card__n{font-size:11.5px}
 }
 
-:root{--galmax:320px}</style>
+:root{--galmax:320px}
+:root{--card-ratio:3/4;--card-fit:cover;--gal-ratio:3/4}</style>
 
 </head>
 <body>
